@@ -2,7 +2,7 @@ import React from 'react';
 
 class Signin extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       signInEmail: '',
       signInPassword: ''
@@ -12,7 +12,7 @@ class Signin extends React.Component {
   onEmailChange = (event) => {
     this.setState({signInEmail: event.target.value})
   }
-  onPasswordlChange = (event) => {
+  onPasswordChange = (event) => {
     this.setState({signInPassword: event.target.value})
   }  
 
@@ -34,9 +34,9 @@ class Signin extends React.Component {
 }
 
   render() {
-      const { onRouteChange} = this.props;
+      const { onRouteChange } = this.props;
       return (
-        <article className="br3 dark-gre b--black-10 mv3 w-100 w-25-1 mw6 shadow-2 center">
+        <article className="br3 dark-grey b--black-10 mv3 w-100 w-25-1 mw6 shadow-2 center">
           <main className="pa4 black-70">
             <div className="measure">
              <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
@@ -46,7 +46,8 @@ class Signin extends React.Component {
               <input 
                 onChange={this.onEmailChange} 
                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                type="email" name="email-address"  
+                type="email"
+                name="email-address"  
                 id="email-address" 
               />
             </div>

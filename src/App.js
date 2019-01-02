@@ -31,7 +31,7 @@ const initialState = {
     id: '',
     name: '',
     email: '',
-    entries: '',
+    entries: 0,
     joined: '' 
   }    
 }
@@ -53,7 +53,7 @@ class App extends Component {
  }
 
   calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -64,32 +64,32 @@ class App extends Component {
       bottomRow: height - (clarifaiFace.bottom_row * height)
     }
   }
-  
+
   displayFaceBox = (box) => {
     this.setState({box: box});
   } 
 
-  onInputChange =(event) => {
+  onInputChange = (event) => {
     this.setState({input: event.target.value});
   }
 
   onButtonSubmit = () => {
-    this.setState({imageUrl: this.state.input});
+    this.setState({ imageUrl: this.state.input});
       fetch('https://glacial-hollows-93865.herokuapp.com/imageurl', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          input: this.state.user.input  
+          input: this.state.input  
           })
         })
-       .then(response => response.json()) 
+      .then(response => response.json()) 
       .then(response => {
         if (response) {
           fetch('https://glacial-hollows-93865.herokuapp.com/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-              input: this.state.user.id  
+              id: this.state.user.id  
             })
           }) 
            .then(response => response.json())
@@ -113,17 +113,20 @@ class App extends Component {
     }
  
   render() {
-    const {isSignedIn, imageUrl, route, box} = this.state;
+    const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
          <Particles className='particles'
           params={particlesOptions}
         />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         { route === 'home' 
           ? <div>
            <Logo />
-           <Rank />
+           <Rank 
+            name={this.state.user.name}
+            entries={this.state.user.entries}
+           />
            <ImageLinkForm 
             onInputChange={this.onInputChange} 
             onButtonSubmit={this.onButtonSubmit}
@@ -132,8 +135,8 @@ class App extends Component {
           </div>
           : (
             route ==='signin' 
-            ? <Signin onRouteChange={this.onRouteChange}/>
-            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+            ? <Signin  loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
+            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
             )
         }
       </div>
